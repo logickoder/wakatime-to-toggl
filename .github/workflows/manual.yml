@@ -1,0 +1,22 @@
+name: Run wakatime-to-toggl manually
+
+on:
+  workflow_dispatch:
+    inputs:
+      day:
+        type: number
+        description: Day
+        default: 1
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npx wakatime-to-toggl -w "$WAKATIME_API_KEY" -t "$TOGGL_API_KEY" -d "$DAY"
+        env:
+          TOGGL_API_KEY: '${{ secrets.TOGGL_API_KEY }}'
+          WAKATIME_API_KEY: '${{ secrets.WAKATIME_API_KEY }}'
+          DAY: '${{ github.event.inputs.day }}'
