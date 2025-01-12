@@ -50,6 +50,7 @@ export default async function (flags) {
       continue;
     }
 
+    spinner.text = `Adding ${entry.project} entries to Toggl...`;
     await addEntry(projectId, togglInfo.workspaceId, start, duration, flags.toggl);
     spinner.text = `Added ${added}/${wakaTimeActivity.length} entries to Toggl...`;
     if (duplicates > 0) {

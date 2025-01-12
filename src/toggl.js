@@ -43,7 +43,6 @@ export function getInfo(apiKey) {
 }
 
 export async function createProject(name, workspaceId, apiKey) {
-  const spinner = ora(`Creating project "${name}" in Toggl...`);
   return instance
     .post(
       `workspaces/${workspaceId}/projects`,
@@ -58,19 +57,13 @@ export async function createProject(name, workspaceId, apiKey) {
         },
       },
     )
-    .then((resp) => {
-      spinner.succeed(`Created project "${JSON.stringify(resp)}" in Toggl.`);
-      // spinner.succeed(`Created project "${resp.data.name}" in Toggl.`);
-      return resp.data;
-    })
+    .then((resp) => resp.data)
     .catch((err) => {
-      spinner.fail(`Cannot create Toggl project "${name}"`);
       throw new Error(`cannot create Toggl project ${name}: ${err.response.data || err}`);
     });
 }
 
 export async function addEntry(projectId, workspaceId, start, duration, apiKey) {
-  const spinner = ora(`Adding entry for "${projectId}" in Toggl...`);
   return instance
     .post(
       `workspaces/${workspaceId}/time_entries`,
@@ -89,12 +82,8 @@ export async function addEntry(projectId, workspaceId, start, duration, apiKey) 
         },
       },
     )
-    .then((resp) => {
-      spinner.succeed(`Added entry for "${projectId}" in Toggl.`);
-      return resp.data;
-    })
+    .then((resp) => resp.data)
     .catch((err) => {
-      spinner.fail(JSON.stringify(err));
       throw new Error(`cannot create Toggl entry : ${err.response.data || err}`);
     });
 }
