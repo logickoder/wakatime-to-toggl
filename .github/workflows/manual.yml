@@ -18,6 +18,9 @@ jobs:
         with:
           node-version: 20
 
+      - name: Install dependencies
+        run: npm ci
+
       - run: npx wakatime-to-toggl -w "$WAKATIME_API_KEY" -t "$TOGGL_API_KEY" -d "$DAY"
         env:
           TOGGL_API_KEY: '${{ secrets.TOGGL_API_KEY }}'
