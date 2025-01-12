@@ -36,7 +36,7 @@ export default async function (flags) {
   let added = 0;
   let duplicates = 0;
   let projects = {};
-  const spinner = ora('Adding entries to Togg...').start();
+  const spinner = ora('Adding entries to Toggl...').start();
   for (const entry of wakaTimeActivity) {
     const projectId = projectIds[entry.project.toLowerCase()];
     if (!projectId) {
