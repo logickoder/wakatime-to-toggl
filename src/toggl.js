@@ -49,6 +49,7 @@ export async function createProject(name, workspaceId, apiKey) {
       `workspaces/${workspaceId}/projects`,
       {
         name: name,
+        active: true,
       },
       {
         auth: {
