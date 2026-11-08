@@ -85,6 +85,7 @@ $ wakatime-to-toggl --help
     --wakatime,       -w  Your WakaTime personal OAuth token
     --toggl,          -t  Your Toggl api key
     --day,            -d  The day to fetch. 0 is today, 1 is yesterday... Default: 1
+    --date                The exact date to fetch (YYYY-MM-DD). Overrides --day
     --min-duration    -m  Minimum duration (in seconds) of entries to sync. Default: 120
     --skip-archived   -s  Skip archived Toggl projects. Default: false
 ```
