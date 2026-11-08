@@ -77,7 +77,8 @@ jobs:
 
   reschedule:
     needs: sync
-    if: ${{ needs.sync.outputs.quota == 'true' }}
+    # !cancelled() because a skipped cooldown job would otherwise skip this job too
+    if: ${{ !cancelled() && needs.sync.outputs.quota == 'true' }}
     runs-on: ubuntu-latest
     permissions:
       actions: write
