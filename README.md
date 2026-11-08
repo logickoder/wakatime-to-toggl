@@ -36,34 +36,18 @@ Automatically import your [WakaTime](https://wakatime.com/) data into [Toggl](ht
 - `WAKATIME_API_KEY`: Your WakaTime personal OAuth token (the secret name stays the same for compatibility)
   ![Screenshot](https://user-images.githubusercontent.com/17952318/86905384-4934f180-c112-11ea-91cd-7b391cd7e5de.png)
 
-4. Go to the **Actions** tab of your fork
-5. Click **set up a workflow yourself**
-6. Copy-paste this workflow:
+4. Go to **Settings > Environments**, click **New environment**, name it `toggl-cooldown`, tick **Wait timer**, set it to `60` minutes and save. On free GitHub plans, wait timers only exist on public repositories, so keep your fork public
+5. Go to the **Actions** tab of your fork and enable workflows
 
-```yaml
-name: Run wakatime-to-toggl everyday
-on:
-  workflow_dispatch:
-  schedule:
-    - cron: 30 2 * * * # Everyday at 02:30 AM UTC. You can change it according to your timezone
-jobs:
-  run:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/setup-node@v6
-        with:
-          node-version: 24
-      - run: npx wakatime-to-toggl -w "$WAKATIME_API_KEY" -t "$TOGGL_API_KEY"
-        env:
-          TOGGL_API_KEY: '${{ secrets.TOGGL_API_KEY }}'
-          WAKATIME_API_KEY: '${{ secrets.WAKATIME_API_KEY }}'
-```
-
-7. Click **Commit changes** then **Commit changes** to save
-
-That's it! **wakatime-to-toggl** will run every day at 2:30 AM UTC (unless you changed it in the workflow)
+That's it! The **Sync WakaTime to Toggl** workflow will run every day at 2:30 AM UTC. To change the time, edit the `cron` line in `.github/workflows/sync.yml`
 
 You can come back to the **Actions** tab later to see the logs
+
+### Toggl rate limits
+
+Toggl's free plan allows 30 API requests per hour, and **wakatime-to-toggl** sends one request per time entry. When a run hits the limit, the workflow schedules a new run for the same date. The `toggl-cooldown` environment delays that run by 60 minutes, without using Actions minutes. Entries already sent are detected as duplicates and skipped. Duplicate detection only sees Toggl's recent time entries, so a retry for an old date can add the same entries twice. The workflow gives up after 24 attempts
+
+To sync a specific day by hand, run the **Sync WakaTime to Toggl** workflow from the **Actions** tab and fill in the date (`YYYY-MM-DD`)
 
 ## Things to know
 
