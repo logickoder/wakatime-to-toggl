@@ -16,7 +16,7 @@ Automatically import your [WakaTime](https://wakatime.com/) data into [Toggl](ht
 
 ## Prerequisites
 
-- Get your WakaTime personal OAuth token. Create an OAuth app in [your WakaTime apps](https://wakatime.com/apps) (it doesn't need to be published) and copy its personal token. Since November 1, 2026, WakaTime API keys only work for editor plugins and return 403 here
+- Get your WakaTime personal OAuth token on [this page](https://wakatime.com/oauth). Since November 1, 2026, WakaTime API keys only work for editor plugins and return 403 here
 - Get your Toggl "API Token" at the bottom of [your profile page](https://track.toggl.com/profile)
 
 ## Option 1 - Run manually on your computer
