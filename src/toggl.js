@@ -59,7 +59,9 @@ export async function createProject(name, workspaceId, apiKey) {
     )
     .then((resp) => resp.data)
     .catch((err) => {
-      throw new Error(`cannot create Toggl project ${name}: ${err.response.data || err}`);
+      const errorDetails = err.response?.data || err.message || err;
+      const errorMessage = typeof errorDetails === 'string' ? errorDetails : JSON.stringify(errorDetails);
+      throw new Error(`cannot create Toggl project "${name}": ${errorMessage}`);
     });
 }
 
@@ -84,6 +86,29 @@ export async function addEntry(projectId, workspaceId, start, duration, apiKey) 
     )
     .then((resp) => resp.data)
     .catch((err) => {
-      throw new Error(`cannot create Toggl entry : ${err.response.data || err}`);
+      const errorDetails = err.response?.data || err.message || err;
+      const errorMessage = typeof errorDetails === 'string' ? errorDetails : JSON.stringify(errorDetails);
+      throw new Error(`cannot create Toggl entry for project ID ${projectId}: ${errorMessage}`);
+    });
+}
+export async function unarchiveProject(projectId, workspaceId, apiKey) {
+  return instance
+    .put(
+      `workspaces/${workspaceId}/projects/${projectId}`,
+      {
+        active: true,
+      },
+      {
+        auth: {
+          username: apiKey,
+          password: 'api_token',
+        },
+      },
+    )
+    .then((resp) => resp.data)
+    .catch((err) => {
+      const errorDetails = err.response?.data || err.message || err;
+      const errorMessage = typeof errorDetails === 'string' ? errorDetails : JSON.stringify(errorDetails);
+      throw new Error(`cannot unarchive Toggl project ID ${projectId}: ${errorMessage}`);
     });
 }
